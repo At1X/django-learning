@@ -1,0 +1,54 @@
+    {%extends 'base.html'%}
+    {%load static%}
+    {%block main%}
+     <!-- Page Header-->
+     <header class="masthead" style="background-image: url('{% static 'assets/img/home-bg.jpg'%}')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h1 >Clean Blog</h1>
+                        <span class="subheading">Lorem Atid</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+     <!-- Main Content-->
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <!-- Post preview-->
+                    {%for foods in foods %}
+                    <div class="post-preview">
+                        <a href="{{foods.slug}}">
+                            <h2 class="post-title">{{foods.name}}</h2>
+                            <h3 class="post-subtitle">{{foods.desc | truncatewords:20}}</h3>
+                        </a>
+                        <p class="post-meta">
+                            Posted by
+                            <a href="#!">{{foods.auth}}</a>
+                            at {{foods.date}}
+                        </p>
+                            
+                        <div>
+                            {% for cat in foods.showornot.all %}
+                            <a href="articles/{{cat.theslg}}">#{{cat.name}}</a>
+                            {% endfor %}
+                        </div>
+                            
+                    </div>
+                    <!-- Divider-->
+                    <hr class="my-4" />
+                    {%endfor%}
+                    <!-- Pager-->
+                    {% if foods.has_next %}
+                    <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="{% url 'blog:home'%}?page={{foods.next_page_number}}">Next page</a></div>
+                    {% endif %}
+                    {% if foods.has_previous %}
+                    <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="{% url 'blog:home'%}?page={{foods.previous_page_number}}">Previous page</a></div>
+                    {%endif%}
+                </div>
+            </div>
+        </div>
+        {%endblock%}
